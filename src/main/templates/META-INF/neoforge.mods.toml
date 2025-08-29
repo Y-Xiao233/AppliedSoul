@@ -22,3 +22,17 @@ license = "${mod_license}"
     versionRange = "${minecraft_version_range}"
     ordering = "NONE"
     side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+    modId = "ae2"
+    type = "required"
+    versionRange = "[19.2.15,)"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+    modId = "industrialforegoingsouls"
+    type = "required"
+    versionRange = "[1.10.4,)"
+    ordering = "NONE"
+    side = "BOTH"
