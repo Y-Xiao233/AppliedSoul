@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "appliedsoul:item/soul_storage_cell_256k",
+    "layer1": "appliedsoul:item/storage_cell_led"
+  }
+}
