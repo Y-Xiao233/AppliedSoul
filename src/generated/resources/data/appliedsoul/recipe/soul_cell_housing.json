@@ -13,18 +13,15 @@
     },
     "D": {
       "item": "industrialforegoing:pink_slime_ingot"
-    },
-    "E": {
-      "item": "ae2:cell_component_1k"
     }
   },
   "pattern": [
     "ABA",
-    "BEB",
+    "B B",
     "CDC"
   ],
   "result": {
     "count": 1,
-    "id": "appliedsoul:soul_storage_cell_1k"
+    "id": "appliedsoul:soul_cell_housing"
   }
 }

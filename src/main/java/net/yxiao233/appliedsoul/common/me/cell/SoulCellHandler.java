@@ -1,6 +1,5 @@
 package net.yxiao233.appliedsoul.common.me.cell;
 
-import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.cells.ICellHandler;
 import appeng.api.storage.cells.ISaveProvider;

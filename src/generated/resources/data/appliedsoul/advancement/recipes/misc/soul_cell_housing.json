@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "appliedsoul:soul_storage_cell_16k"
+        "recipe": "appliedsoul:soul_cell_housing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "appliedsoul:soul_storage_cell_16k"
+      "appliedsoul:soul_cell_housing"
     ]
   }
 }

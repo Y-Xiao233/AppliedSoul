@@ -31,8 +31,15 @@ license = "${mod_license}"
     side = "BOTH"
 
 [[dependencies."${mod_id}"]]
-    modId = "industrialforegoingsouls"
+    modId = "soulplied_energistics"
     type = "required"
-    versionRange = "[1.10.4,)"
+    versionRange = "[1.0.2,)"
     ordering = "NONE"
     side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "industrialforegoingsouls"
+type = "required"
+versionRange = "[1.10.4,)"
+ordering = "NONE"
+side = "BOTH"

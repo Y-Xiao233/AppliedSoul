@@ -1,13 +1,27 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "ingredients": [
-    {
-      "item": "appliedsoul:soul_cell_housing"
+  "key": {
+    "A": {
+      "item": "ae2:quartz_glass"
     },
-    {
+    "B": {
+      "item": "minecraft:echo_shard"
+    },
+    "C": {
+      "tag": "c:plastics"
+    },
+    "D": {
+      "item": "industrialforegoing:pink_slime_ingot"
+    },
+    "E": {
       "item": "ae2:cell_component_256k"
     }
+  },
+  "pattern": [
+    "ABA",
+    "BEB",
+    "CDC"
   ],
   "result": {
     "count": 1,
