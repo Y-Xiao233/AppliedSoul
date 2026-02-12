@@ -5,5 +5,10 @@
   "item.appliedsoul.soul_storage_cell_4k": "4k ME Soul Storage Cell",
   "item.appliedsoul.soul_storage_cell_16k": "16k ME Soul Storage Cell",
   "item.appliedsoul.soul_storage_cell_64k": "64k ME Soul Storage Cell",
-  "item.appliedsoul.soul_storage_cell_256k": "256k ME Soul Storage Cell"
+  "item.appliedsoul.soul_storage_cell_256k": "256k ME Soul Storage Cell",
+  "item.appliedsoul.range_card": "Range Card",
+  "item.appliedsoul.ender_star": "Ender Star",
+  "block.appliedsoul.soul_collector": "Soul Collector",
+  "aekey.soulkey.description": "Souls",
+  "gui.appliedsoul.soul_collector": "Soul Collector"
 }

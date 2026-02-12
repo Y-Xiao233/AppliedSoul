@@ -13,10 +13,13 @@ public class SoulCreativeModeTab {
             .icon(() -> SoulItems.SOUL_CELL_256K.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
 
-                SoulItems.ITEMS.getEntries().forEach((reg) ->{
+                SoulItems.ITEMS.getEntries().forEach(reg ->{
                     output.accept(reg.get());
                 });
 
+                SoulBlocks.DR.getEntries().forEach(reg ->{
+                    output.accept(reg.get());
+                });
             })
             .title(Component.translatable("itemGroup.appliedsoul"))
             .build()

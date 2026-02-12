@@ -1,0 +1,58 @@
+package net.yxiao233.appliedsoul.common.registry;
+
+import appeng.api.ids.AEBlockIds;
+import appeng.block.AEBaseBlock;
+import appeng.block.AEBaseBlockItem;
+import appeng.block.misc.InterfaceBlock;
+import appeng.core.MainCreativeTab;
+import appeng.core.definitions.AEItems;
+import appeng.core.definitions.BlockDefinition;
+import appeng.core.definitions.ItemDefinition;
+import com.google.common.base.Preconditions;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.yxiao233.appliedsoul.AppliedSoul;
+import net.yxiao233.appliedsoul.common.block.SoulCollectorBlock;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
+public class SoulBlocks {
+    public static final DeferredRegister.Blocks DR = DeferredRegister.createBlocks(AppliedSoul.MODID);
+    private static final List<BlockDefinition<?>> BLOCKS = new ArrayList<>();
+    public static final BlockDefinition<SoulCollectorBlock> SOUL_COLLECTOR = block("Soul Collector", AppliedSoul.makeId("soul_collector"), SoulCollectorBlock::new);
+    private static <T extends Block> BlockDefinition<T> block(String englishName, ResourceLocation id, Supplier<T> blockSupplier) {
+        return block(englishName, id, blockSupplier, null);
+    }
+
+    private static <T extends Block> BlockDefinition<T> block(String englishName, ResourceLocation id, Supplier<T> blockSupplier, @Nullable BiFunction<Block, Item.Properties, BlockItem> itemFactory) {
+        Preconditions.checkArgument(id.getNamespace().equals(AppliedSoul.MODID));
+        DeferredBlock<T> deferredBlock = DR.register(id.getPath(), blockSupplier);
+        DeferredItem<BlockItem> deferredItem = SoulItems.ITEMS.register(id.getPath(), () -> {
+            T block = deferredBlock.get();
+            Item.Properties itemProperties = new Item.Properties();
+            if (itemFactory != null) {
+                BlockItem item = (BlockItem)itemFactory.apply(block, itemProperties);
+                if (item == null) {
+                    throw new IllegalArgumentException("BlockItem factory for " + String.valueOf(id) + " returned null");
+                } else {
+                    return item;
+                }
+            } else {
+                return (BlockItem)(block instanceof AEBaseBlock ? new AEBaseBlockItem(block, itemProperties) : new BlockItem(block, itemProperties));
+            }
+        });
+        ItemDefinition<BlockItem> itemDef = new ItemDefinition<>(englishName, deferredItem);
+        BlockDefinition<T> definition = new BlockDefinition<>(englishName, deferredBlock, itemDef);
+        BLOCKS.add(definition);
+        return definition;
+    }
+}

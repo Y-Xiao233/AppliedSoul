@@ -35,7 +35,7 @@ public class SoulCellItem extends AEBaseItem {
     }
 
     public long getTotalBytes() {
-        return 100 * (long) Math.pow(4, tier.index() - 1);
+        return 10240 * (long) Math.pow(4, tier.index() - 1);
     }
 
     public double getIdleDrain() {
@@ -47,7 +47,7 @@ public class SoulCellItem extends AEBaseItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
         disassemble(player.getItemInHand(usedHand),level,player);
         return super.use(level, player, usedHand);
     }

@@ -23,6 +23,8 @@ public class ModItemModelProvider extends ItemModelProvider{
     protected void registerModels() {
         flatSingleLayer(SoulItems.SOUL_CELL_HOUSING);
         SoulItems.getCells().forEach(cell -> flatSingleLayer(cell).texture("layer1", AppliedSoul.makeId("item/storage_cell_led")));
+        basicItem(SoulItems.RANGE_CARD.asItem());
+        basicItem(SoulItems.ENDER_STAR.asItem());
     }
     private ItemModelBuilder flatSingleLayer(ItemDefinition<?> item) {
         var path = item.id().getPath();

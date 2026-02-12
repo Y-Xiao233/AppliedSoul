@@ -5,5 +5,10 @@
   "item.appliedsoul.soul_storage_cell_4k": "4k ME灵魂存储元件",
   "item.appliedsoul.soul_storage_cell_16k": "16k ME灵魂存储元件",
   "item.appliedsoul.soul_storage_cell_64k": "64k ME灵魂存储元件",
-  "item.appliedsoul.soul_storage_cell_256k": "256k ME灵魂存储元件"
+  "item.appliedsoul.soul_storage_cell_256k": "256k ME灵魂存储元件",
+  "item.appliedsoul.range_card": "范围卡",
+  "item.appliedsoul.ender_star": "末影之星",
+  "block.appliedsoul.soul_collector": "灵魂收集器",
+  "aekey.soulkey.description": "灵魂",
+  "gui.appliedsoul.soul_collector": "灵魂收集器"
 }

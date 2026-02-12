@@ -73,6 +73,17 @@ repositories{
             includeGroup "curse.maven"
         }
     }
+
+    maven {
+        //JEI
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+
+    maven {
+        //JEI
+        url 'https://modmaven.dev/'
+    }
 }
 
 dependencies {
@@ -87,6 +98,13 @@ dependencies {
 
     //soulplied energistics
     implementation "curse.maven:soulplied-energistics-1143614:6771121"
+
+    //JEI
+    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+
+    //ae2-jei integration
+    implementation "curse.maven:ae2-jei-integration-1074338:5748513"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
