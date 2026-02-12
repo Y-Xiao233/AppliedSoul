@@ -49,11 +49,6 @@ public class SoulCollectorLogic {
 
     private void onUpgradesChanged() {
         this.host.saveChanges();
-//        if (!this.upgrades.isInstalled(AEItems.CRAFTING_CARD)) {
-//            this.cancelCrafting();
-//        }
-//
-//        this.updatePlan();
     }
 
     public void writeToNBT(CompoundTag tag, HolderLookup.Provider registries) {
