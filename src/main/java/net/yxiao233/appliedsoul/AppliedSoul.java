@@ -1,9 +1,9 @@
 package net.yxiao233.appliedsoul;
 
+import appeng.api.AECapabilities;
 import appeng.api.storage.StorageCells;
 import appeng.api.upgrades.Upgrades;
 import appeng.blockentity.AEBaseBlockEntity;
-import appeng.core.definitions.AEItems;
 import appeng.init.client.InitScreens;
 import appeng.parts.automation.StackWorldBehaviors;
 import com.buuz135.soulplied_energistics.applied.SoulAEKeyType;
@@ -16,6 +16,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.yxiao233.appliedsoul.client.SoulCollectorScreen;
@@ -44,6 +45,7 @@ public class AppliedSoul extends ModuleController {
         StackWorldBehaviors.registerExportStrategy(SoulAEKeyType.TYPE, SoulStorageExportStrategy::new);
 
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::onRegisterCapabilities);
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
@@ -76,5 +78,13 @@ public class AppliedSoul extends ModuleController {
         public static void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
             InitScreens.register(event,SoulMenus.SOUL_COLLECTOR.get(),SoulCollectorScreen::new,"/screens/soul_collector.json");
         }
+    }
+
+    public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+                AECapabilities.IN_WORLD_GRID_NODE_HOST,
+                SoulBlockEntities.SOUL_COLLECTOR.get(),
+                (be, ctx) -> be
+        );
     }
 }
