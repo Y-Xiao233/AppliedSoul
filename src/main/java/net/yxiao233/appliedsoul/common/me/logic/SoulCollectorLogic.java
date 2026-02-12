@@ -64,7 +64,6 @@ public class SoulCollectorLogic {
         this.upgrades.readFromNBT(tag, "upgrades", registries);
     }
 
-    // TODO 升级的掉落物
     public void addDrops(List<ItemStack> drops) {
         for (ItemStack is : this.upgrades) {
             if (!is.isEmpty()) {
