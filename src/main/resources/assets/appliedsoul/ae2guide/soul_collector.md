@@ -18,7 +18,7 @@ item_ids:
 
 ---
 
-You can use **<ItemLink id ="appliedsoul:range_card" />** to increase the working range,the maximum working range is **3 chunk**
+You can use **<ItemLink id ="appliedsoul:range_card" />** to increase the working range,the maximum working range is **2 chunk**
 
 <Row gap="16">
     <BlockImage id="industrialforegoingsouls:soul_laser_base" scale="2" />

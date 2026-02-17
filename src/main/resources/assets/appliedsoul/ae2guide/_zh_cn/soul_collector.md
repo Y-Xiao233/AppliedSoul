@@ -18,7 +18,7 @@ item_ids:
 
 ---
 
-你可以使用 **<ItemLink id ="appliedsoul:range_card" />** 来增加其工作范围, 最大工作半径为 **3个区块**
+你可以使用 **<ItemLink id ="appliedsoul:range_card" />** 来增加其工作范围, 最大工作半径为 **2个区块**
 
 <Row gap="16">
     <BlockImage id="industrialforegoingsouls:soul_laser_base" scale="2" />
