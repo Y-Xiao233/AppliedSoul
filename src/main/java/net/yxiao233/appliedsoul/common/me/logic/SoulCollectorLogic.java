@@ -28,7 +28,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 import net.yxiao233.appliedsoul.common.registry.SoulItems;
 import org.jetbrains.annotations.Nullable;
@@ -109,7 +109,7 @@ public class SoulCollectorLogic {
                 return false;
             }
             int radius = this.getUpgrades().getInstalledUpgrades(SoulItems.RANGE_CARD);
-            List<?> blockEntities = getBlockEntities(level, getCheckArea(radius), IndustrialForegoingSouls.SOUL_LASER_BLOCK.type().get());
+            List<BlockEntity> blockEntities = getBlockEntities(level,getChunksInRadius(level,radius), IndustrialForegoingSouls.SOUL_LASER_BLOCK.type().get());
             blockEntities.forEach(entity ->{
                 if(entity instanceof SoulLaserBaseBlockEntity soulLaserBaseBlockEntity){
                     ISoulHandler capability = level.getCapability(SoulCapabilities.BLOCK, soulLaserBaseBlockEntity.getBlockPos(), Direction.UP);
@@ -125,31 +125,27 @@ public class SoulCollectorLogic {
         }
     }
 
-    private <T extends BlockEntity> List<T> getBlockEntities(Level level, AABB area, BlockEntityType<T> type){
-        if(level == null || type == null){
+    private List<BlockEntity> getBlockEntities(Level level, List<LevelChunk> chunks, BlockEntityType<?> type){
+        if(type == null){
             return List.of();
         }else{
-            List<T> entities = new ArrayList<>();
-            BlockPos.betweenClosed((int) area.minX, (int) area.minY, (int) area.minZ, (int) area.maxX, (int) area.maxY, (int) area.maxZ).forEach(pos ->{
-                level.getBlockEntity(pos,type).ifPresent(entities::add);
-            });
+            List<BlockPos> posList = new ArrayList<>();
+            List<BlockEntity> entities = new ArrayList<>();
+            chunks.forEach(chunk -> posList.addAll(chunk.getBlockEntities().keySet()));
+            posList.forEach(pos -> level.getBlockEntity(pos,type).ifPresent(entities::add));
             return entities;
         }
     }
 
-    private AABB getCheckArea(int radius){
-        BlockEntity blockEntity = host.getBlockEntity();
-        BlockPos blockPos = blockEntity.getBlockPos();
-        Level level = blockEntity.getLevel();
-        if(level != null){
-            ChunkAccess curChunk = level.getChunk(blockPos);
-            ChunkPos curChunkPos = curChunk.getPos();
-            ChunkPos min = level.getChunk(curChunkPos.x - radius, curChunkPos.z - radius).getPos();
-            ChunkPos max = level.getChunk(curChunkPos.x + radius, curChunkPos.z + radius).getPos();
-            return new AABB(min.getMinBlockX(), level.getMinBuildHeight(),min.getMinBlockZ(), max.getMaxBlockX(), level.getMaxBuildHeight(), max.getMaxBlockZ());
-
+    private List<LevelChunk> getChunksInRadius(Level level, int radius){
+        List<LevelChunk> chunks = new ArrayList<>();
+        ChunkPos centerPos = level.getChunkAt(host.getBlockEntity().getBlockPos()).getPos();
+        for (int x = centerPos.x - radius; x <= centerPos.x + radius; x++) {
+            for (int z = centerPos.z - radius; z <= centerPos.z + radius; z++) {
+                chunks.add(level.getChunk(x,z));
+            }
         }
-        return new AABB(blockPos);
+        return chunks;
     }
 
     private class Ticker implements IGridTickable {
