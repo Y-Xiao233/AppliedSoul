@@ -3,21 +3,23 @@ package net.yxiao233.appliedsoul.common.me.strategy;
 import appeng.api.behaviors.StackImportStrategy;
 import appeng.api.behaviors.StackTransferContext;
 import appeng.api.config.Actionable;
-import com.buuz135.industrialforegoingsouls.capabilities.ISoulHandler;
-import com.buuz135.industrialforegoingsouls.capabilities.SoulCapabilities;
-import com.buuz135.soulplied_energistics.applied.SoulAEKeyType;
-import com.buuz135.soulplied_energistics.applied.SoulKey;
+import appeng.util.BlockApiCache;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
+import net.yxiao233.appliedsoul.common.capabilities.ISoulHandler;
+import net.yxiao233.appliedsoul.common.capabilities.SoulCapabilities;
+import net.yxiao233.appliedsoul.common.key.SoulAEKeyType;
+import net.yxiao233.appliedsoul.common.key.SoulKey;
 
 @SuppressWarnings("UnstableApiUsage")
 public class SoulStorageImportStrategy implements StackImportStrategy {
-    private final BlockCapabilityCache<ISoulHandler, Direction> cache;
+    private final BlockApiCache<ISoulHandler> cache;
+    private final Direction fromSide;
 
     public SoulStorageImportStrategy(ServerLevel level, BlockPos fromPos, Direction fromSide) {
-        cache = BlockCapabilityCache.create(SoulCapabilities.BLOCK, level, fromPos, fromSide);
+        cache = BlockApiCache.create(SoulCapabilities.BLOCK, level, fromPos);
+        this.fromSide = fromSide;
     }
     @Override
     public boolean transfer(StackTransferContext context) {
@@ -25,7 +27,7 @@ public class SoulStorageImportStrategy implements StackImportStrategy {
             return false;
         }
 
-        var soulTile = cache.getCapability();
+        var soulTile = cache.find(fromSide);
 
         if (soulTile == null) {
             return false;

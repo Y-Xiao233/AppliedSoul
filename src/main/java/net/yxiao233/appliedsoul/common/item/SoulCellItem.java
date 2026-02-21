@@ -6,7 +6,6 @@ import appeng.api.upgrades.UpgradeInventories;
 import appeng.core.localization.PlayerMessages;
 import appeng.items.AEBaseItem;
 import appeng.items.storage.StorageTier;
-import appeng.recipes.game.StorageCellDisassemblyRecipe;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -16,9 +15,11 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.yxiao233.appliedsoul.common.me.cell.SoulCellHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -26,9 +27,11 @@ import java.util.Optional;
 
 public class SoulCellItem extends AEBaseItem {
     private final StorageTier tier;
-    public SoulCellItem(Properties properties, StorageTier tier) {
+    private final ItemLike housing;
+    public SoulCellItem(Properties properties, StorageTier tier, ItemLike housing) {
         super(properties);
         this.tier = tier;
+        this.housing = housing;
     }
     public StorageTier getTier() {
         return tier;
@@ -49,7 +52,7 @@ public class SoulCellItem extends AEBaseItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
         disassemble(player.getItemInHand(usedHand),level,player);
-        return super.use(level, player, usedHand);
+        return new InteractionResultHolder<>(InteractionResult.sidedSuccess(level.isClientSide()),player.getItemInHand(usedHand));
     }
     @NotNull
     @Override
@@ -61,15 +64,7 @@ public class SoulCellItem extends AEBaseItem {
 
     private boolean disassemble(ItemStack stack, Level level, Player player) {
         if (player != null && player.isShiftKeyDown()) {
-            if (level.isClientSide()) {
-                return false;
-            }
-
-            var disassembledStacks = StorageCellDisassemblyRecipe.getDisassemblyResult(level, stack.getItem());
-
-            if (disassembledStacks.isEmpty()) {
-                return false;
-            }
+            if (level.isClientSide()) return false;
 
             var playerInv = player.getInventory();
             var cellInv = StorageCells.getCellInventory(stack, null);
@@ -77,14 +72,14 @@ public class SoulCellItem extends AEBaseItem {
             if (cellInv != null && playerInv.getSelected() == stack) {
                 if (cellInv.getAvailableStacks().isEmpty()) {
                     playerInv.setItem(playerInv.selected, ItemStack.EMPTY);
+                    playerInv.placeItemBackInInventory(
+                            tier.componentSupplier().get().getDefaultInstance());
 
                     for (var upgrade : getUpgrades(stack)) {
                         playerInv.placeItemBackInInventory(upgrade);
                     }
 
-                    for (var disassembled : disassembledStacks) {
-                        playerInv.placeItemBackInInventory(disassembled);
-                    }
+                    playerInv.placeItemBackInInventory(housing.asItem().getDefaultInstance());
 
                     return true;
                 } else {
@@ -98,9 +93,8 @@ public class SoulCellItem extends AEBaseItem {
 
     @ParametersAreNonnullByDefault
     @Override
-    public void appendHoverText(
-            ItemStack stack, TooltipContext context, List<Component> lines, TooltipFlag advTooltips) {
-        SoulCellHandler.INSTANCE.addCellInformationToTooltip(stack, lines);
+    public void appendHoverText(ItemStack stack, @Nullable Level pLevel, List<Component> components, TooltipFlag isAdvanced) {
+        SoulCellHandler.INSTANCE.addCellInformationToTooltip(stack, components);
     }
 
     @NotNull

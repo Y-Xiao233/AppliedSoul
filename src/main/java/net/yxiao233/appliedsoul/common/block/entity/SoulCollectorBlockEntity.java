@@ -6,11 +6,10 @@ import appeng.api.networking.IGridNode;
 import appeng.api.networking.IGridNodeListener;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.util.AECableType;
-import appeng.blockentity.grid.AENetworkedBlockEntity;
+import appeng.blockentity.grid.AENetworkBlockEntity;
 import appeng.me.helpers.BlockEntityNodeListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -19,19 +18,20 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.yxiao233.appliedsoul.common.me.logic.SoulCollectorHost;
 import net.yxiao233.appliedsoul.common.me.logic.SoulCollectorLogic;
+import net.yxiao233.appliedsoul.common.registry.SoulBlocks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SoulCollectorBlockEntity extends AENetworkedBlockEntity implements SoulCollectorHost {
+public class SoulCollectorBlockEntity extends AENetworkBlockEntity implements SoulCollectorHost {
     private static final IGridNodeListener<SoulCollectorBlockEntity> NODE_LISTENER = new BlockEntityNodeListener<>() {
         public void onGridChanged(SoulCollectorBlockEntity nodeOwner, IGridNode node) {
             nodeOwner.logic.gridChanged();
         }
     };
     private final SoulCollectorLogic logic = this.createLogic();
-    public SoulCollectorBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState blockState) {
-        super(blockEntityType, pos, blockState);
+    public SoulCollectorBlockEntity(BlockEntityType<?> entityType, BlockPos pos, BlockState blockState) {
+        super(entityType, pos, blockState);
     }
     protected SoulCollectorLogic createLogic() {
         return new SoulCollectorLogic(this.getMainNode(),this, this.getItemFromBlockEntity().asItem());
@@ -74,14 +74,14 @@ public class SoulCollectorBlockEntity extends AENetworkedBlockEntity implements 
     }
 
     @Override
-    public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
-        super.saveAdditional(data, registries);
-        this.logic.writeToNBT(data, registries);
+    public void saveAdditional(CompoundTag data) {
+        super.saveAdditional(data);
+        this.logic.writeToNBT(data);
     }
 
     @Override
-    public void loadTag(CompoundTag data, HolderLookup.Provider registries) {
-        super.loadTag(data, registries);
-        this.logic.readFromNBT(data, registries);
+    public void loadTag(CompoundTag data) {
+        super.loadTag(data);
+        this.logic.readFromNBT(data);
     }
 }

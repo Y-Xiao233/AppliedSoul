@@ -15,12 +15,8 @@ import appeng.api.upgrades.UpgradeInventories;
 import appeng.api.util.AECableType;
 import com.buuz135.industrialforegoingsouls.IndustrialForegoingSouls;
 import com.buuz135.industrialforegoingsouls.block.tile.SoulLaserBaseBlockEntity;
-import com.buuz135.industrialforegoingsouls.capabilities.ISoulHandler;
-import com.buuz135.industrialforegoingsouls.capabilities.SoulCapabilities;
-import com.buuz135.soulplied_energistics.applied.SoulKey;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +25,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.phys.AABB;
+import net.yxiao233.appliedsoul.common.capabilities.ISoulHandler;
+import net.yxiao233.appliedsoul.common.capabilities.SoulCapabilities;
+import net.yxiao233.appliedsoul.common.key.SoulKey;
 import net.yxiao233.appliedsoul.common.registry.SoulItems;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,12 +49,12 @@ public class SoulCollectorLogic {
         this.host.saveChanges();
     }
 
-    public void writeToNBT(CompoundTag tag, HolderLookup.Provider registries) {
-        this.upgrades.writeToNBT(tag, "upgrades", registries);
+    public void writeToNBT(CompoundTag tag) {
+        this.upgrades.writeToNBT(tag, "upgrades");
     }
 
-    public void readFromNBT(CompoundTag tag, HolderLookup.Provider registries) {
-        this.upgrades.readFromNBT(tag, "upgrades", registries);
+    public void readFromNBT(CompoundTag tag) {
+        this.upgrades.readFromNBT(tag, "upgrades");
     }
 
     public void addDrops(List<ItemStack> drops) {
@@ -91,7 +89,7 @@ public class SoulCollectorLogic {
             });
         }
 
-        this.host.getBlockEntity().invalidateCapabilities();
+        this.host.getBlockEntity().invalidateCaps();
     }
 
     public AECableType getCableConnectionType(Direction dir) {
@@ -109,16 +107,15 @@ public class SoulCollectorLogic {
                 return false;
             }
             int radius = this.getUpgrades().getInstalledUpgrades(SoulItems.RANGE_CARD);
-            List<BlockEntity> blockEntities = getBlockEntities(level,getChunksInRadius(level,radius), IndustrialForegoingSouls.SOUL_LASER_BLOCK.type().get());
+            List<BlockEntity> blockEntities = getBlockEntities(level,getChunksInRadius(level,radius), IndustrialForegoingSouls.SOUL_LASER_BLOCK.getRight().get());
             blockEntities.forEach(entity ->{
                 if(entity instanceof SoulLaserBaseBlockEntity soulLaserBaseBlockEntity){
-                    ISoulHandler capability = level.getCapability(SoulCapabilities.BLOCK, soulLaserBaseBlockEntity.getBlockPos(), Direction.UP);
-                    if(capability != null){
-                        int amount = capability.getSoulInTank(0);
+                    soulLaserBaseBlockEntity.getCapability(SoulCapabilities.BLOCK).ifPresent(soulHandler ->{
+                        int amount = soulHandler.getSoulInTank(0);
                         long curAmount =  networkInv.insert(SoulKey.INSTANCE,amount,Actionable.SIMULATE,IActionSource.empty());
                         networkInv.insert(SoulKey.INSTANCE,curAmount,Actionable.MODULATE,IActionSource.empty());
-                        capability.drain((int) curAmount,ISoulHandler.Action.EXECUTE);
-                    }
+                        soulHandler.drain((int) curAmount,ISoulHandler.Action.EXECUTE);
+                    });
                 }
             });
             return true;
@@ -153,7 +150,7 @@ public class SoulCollectorLogic {
         }
 
         public TickingRequest getTickingRequest(IGridNode node) {
-            return new TickingRequest(5,120,false);
+            return new TickingRequest(5,120,false,false);
         }
 
         public TickRateModulation tickingRequest(IGridNode node, int ticksSinceLastCall) {

@@ -8,14 +8,14 @@ import net.yxiao233.appliedsoul.AppliedSoul;
 
 public class SoulTags {
     public static class Items{
-        public static final TagKey<Item> DUSTS = createNeoForgeTag("dusts");
-        public static final TagKey<Item> ENDER_PEARL_DUSTS = createNeoForgeTag("dusts/ender_pearl");
+        public static final TagKey<Item> DUSTS = createForgeTag("dusts");
+        public static final TagKey<Item> ENDER_PEARL_DUSTS = createForgeTag("dusts/ender_pearl");
         private static TagKey<Item> createTag(String name){
             return ItemTags.create(AppliedSoul.makeId(name));
         }
 
-        private static TagKey<Item> createNeoForgeTag(String name){
-            return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c",name));
+        private static TagKey<Item> createForgeTag(String name){
+            return ItemTags.create(new ResourceLocation("forge",name));
         }
     }
 }

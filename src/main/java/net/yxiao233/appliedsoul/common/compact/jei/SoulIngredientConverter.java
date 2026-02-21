@@ -1,12 +1,12 @@
 package net.yxiao233.appliedsoul.common.compact.jei;
 
+import appeng.api.integrations.jei.IngredientConverter;
 import appeng.api.stacks.GenericStack;
-import com.buuz135.soulplied_energistics.applied.SoulAEKeyType;
-import com.buuz135.soulplied_energistics.applied.SoulKey;
 import mezz.jei.api.ingredients.IIngredientType;
+import net.yxiao233.appliedsoul.common.key.SoulAEKeyType;
+import net.yxiao233.appliedsoul.common.key.SoulKey;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tamaized.ae2jeiintegration.api.integrations.jei.IngredientConverter;
 
 public record SoulIngredientConverter(IIngredientType<SoulAEKeyType> type) implements IngredientConverter<SoulAEKeyType> {
 

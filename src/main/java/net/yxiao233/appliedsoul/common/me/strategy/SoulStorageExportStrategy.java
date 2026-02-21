@@ -5,21 +5,23 @@ import appeng.api.behaviors.StackTransferContext;
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEKey;
 import appeng.api.storage.StorageHelper;
-import com.buuz135.industrialforegoingsouls.capabilities.ISoulHandler;
-import com.buuz135.industrialforegoingsouls.capabilities.SoulCapabilities;
-import com.buuz135.soulplied_energistics.applied.SoulKey;
+import appeng.util.BlockApiCache;
 import com.google.common.primitives.Ints;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
+import net.yxiao233.appliedsoul.common.capabilities.ISoulHandler;
+import net.yxiao233.appliedsoul.common.capabilities.SoulCapabilities;
+import net.yxiao233.appliedsoul.common.key.SoulKey;
 
 @SuppressWarnings("UnstableApiUsage")
 public class SoulStorageExportStrategy implements StackExportStrategy {
-    private final BlockCapabilityCache<ISoulHandler, Direction> cache;
+    private final BlockApiCache<ISoulHandler> cache;
+    private final Direction fromSide;
 
     public SoulStorageExportStrategy(ServerLevel level, BlockPos fromPos, Direction fromSide) {
-        cache = BlockCapabilityCache.create(SoulCapabilities.BLOCK, level, fromPos, fromSide);
+        cache = BlockApiCache.create(SoulCapabilities.BLOCK, level, fromPos);
+        this.fromSide = fromSide;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class SoulStorageExportStrategy implements StackExportStrategy {
             return 0;
         }
 
-        var sourceTile = cache.getCapability();
+        var sourceTile = cache.find(fromSide);
 
         if (sourceTile != null) {
             var insertable = sourceTile.fill(Ints.saturatedCast(amount), ISoulHandler.Action.SIMULATE);
@@ -56,7 +58,7 @@ public class SoulStorageExportStrategy implements StackExportStrategy {
             return 0;
         }
 
-        var sourceTile = cache.getCapability();
+        var sourceTile = cache.find(fromSide);
         return sourceTile != null ? sourceTile.fill(Ints.saturatedCast(amount), mode.isSimulate() ? ISoulHandler.Action.SIMULATE : ISoulHandler.Action.EXECUTE) : 0;
     }
 }

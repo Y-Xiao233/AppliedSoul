@@ -1,14 +1,14 @@
 package net.yxiao233.appliedsoul.common.compact.jei;
 
-import com.buuz135.soulplied_energistics.applied.SoulAEKeyType;
+import appeng.api.integrations.jei.IngredientConverters;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.resources.ResourceLocation;
 import net.yxiao233.appliedsoul.AppliedSoul;
+import net.yxiao233.appliedsoul.common.key.SoulAEKeyType;
 import org.jetbrains.annotations.NotNull;
-import tamaized.ae2jeiintegration.api.integrations.jei.IngredientConverters;
 
 import java.util.List;
 
@@ -27,6 +27,6 @@ public class AppliedSoulJeiPlugin implements IModPlugin {
 
     @Override
     public @NotNull ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(AppliedSoul.MODID,"jei");
+        return new ResourceLocation(AppliedSoul.MODID,"jei");
     }
 }

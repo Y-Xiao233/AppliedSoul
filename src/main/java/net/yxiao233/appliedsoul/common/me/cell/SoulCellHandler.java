@@ -6,11 +6,11 @@ import appeng.api.storage.cells.ISaveProvider;
 import appeng.core.AEConfig;
 import appeng.core.localization.Tooltips;
 import appeng.items.storage.StorageCellTooltipComponent;
-import com.buuz135.soulplied_energistics.applied.SoulKey;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.yxiao233.appliedsoul.common.item.SoulCellItem;
+import net.yxiao233.appliedsoul.common.key.SoulKey;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

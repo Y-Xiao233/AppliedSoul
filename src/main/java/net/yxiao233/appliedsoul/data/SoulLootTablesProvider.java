@@ -19,13 +19,16 @@ public class SoulLootTablesProvider {
     public static LootTableProvider create(PackOutput output, CompletableFuture<HolderLookup.Provider> provider){
         return new LootTableProvider(output, Set.of(), List.of(
                 new LootTableProvider.SubProviderEntry(SoulBlockLootTables::new, LootContextParamSets.BLOCK)
-        ),provider);
+        ));
     }
 
     public static class SoulBlockLootTables extends BlockLootSubProvider {
-        public SoulBlockLootTables(HolderLookup.Provider provider) {
-            super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
+
+        public SoulBlockLootTables() {
+            super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+
         }
+
         @Override
         protected void generate() {
             dropSelf(SoulBlocks.SOUL_COLLECTOR.block());
@@ -35,8 +38,8 @@ public class SoulLootTablesProvider {
         protected @NotNull Iterable<Block> getKnownBlocks() {
             //Adding ".nonLootTable()" after the registration method will not generate it here
             ArrayList<Block> list = new ArrayList<>();
-            SoulBlocks.DR.getEntries().forEach(entry ->{
-                list.add(entry.get());
+            SoulBlocks.getBlocks().forEach(entry ->{
+                list.add(entry.block());
             });
             return List.copyOf(list);
         }

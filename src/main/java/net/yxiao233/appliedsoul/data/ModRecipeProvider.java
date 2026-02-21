@@ -2,38 +2,33 @@ package net.yxiao233.appliedsoul.data;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
-import appeng.recipes.game.StorageCellDisassemblyRecipe;
 import appeng.recipes.handlers.InscriberProcessType;
 import appeng.recipes.handlers.InscriberRecipeBuilder;
 import com.buuz135.industrial.module.ModuleCore;
 import com.buuz135.industrial.utils.IndustrialTags;
 import com.hrznstudio.titanium.recipe.generator.TitaniumShapedRecipeBuilder;
 import com.hrznstudio.titanium.recipe.generator.TitaniumShapelessRecipeBuilder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.neoforge.common.Tags;
+import net.minecraftforge.common.Tags;
 import net.yxiao233.appliedsoul.common.registry.SoulBlocks;
 import net.yxiao233.appliedsoul.common.registry.SoulItems;
 import net.yxiao233.appliedsoul.common.registry.SoulTags;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class ModRecipeProvider extends VanillaRecipeProvider {
-    public ModRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries);
+    public ModRecipeProvider(PackOutput output) {
+        super(output);
     }
 
     @Override
-    protected void buildRecipes(@NotNull RecipeOutput output) {
+    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
         for (var cell : SoulItems.getCells()) {
             var tier = cell.asItem().getTier();
             var prefix = tier.namePrefix();
@@ -44,13 +39,7 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
                     .requires(component)
                     .unlockedBy("has_soul_cell_housing", has(SoulItems.SOUL_CELL_HOUSING))
                     .unlockedBy("has_cell_component_" + prefix, has(component))
-                    .save(output, cell.id() + "_storage");
-            output.accept(
-                    cell.id().withSuffix("_disassembly"),
-                    new StorageCellDisassemblyRecipe(
-                            cell.asItem(),
-                            List.of(component.getDefaultInstance(), SoulItems.SOUL_CELL_HOUSING.stack())),
-                    null);
+                    .save(consumer, cell.id() + "_storage");
         }
 
         for (var cell : SoulItems.getCells()){
@@ -65,7 +54,7 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
                     .define('C', IndustrialTags.Items.PLASTIC)
                     .define('D', ModuleCore.PINK_SLIME_INGOT.get())
                     .define('E', component)
-                    .save(output, cell.id());
+                    .save(consumer, cell.id());
         }
 
         TitaniumShapedRecipeBuilder.shapedRecipe(SoulItems.SOUL_CELL_HOUSING)
@@ -76,20 +65,20 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
                 .define('B', Items.ECHO_SHARD)
                 .define('C', IndustrialTags.Items.PLASTIC)
                 .define('D',ModuleCore.PINK_SLIME_INGOT.get())
-                .save(output,SoulItems.SOUL_CELL_HOUSING.id());
+                .save(consumer,SoulItems.SOUL_CELL_HOUSING.id());
 
 
         TitaniumShapelessRecipeBuilder.shapelessRecipe(SoulItems.RANGE_CARD)
                 .requires(AEItems.ADVANCED_CARD)
                 .requires(SoulTags.Items.ENDER_PEARL_DUSTS)
-                .save(output);
+                .save(consumer);
 
 
         InscriberRecipeBuilder.inscribe(Items.NETHER_STAR,SoulItems.ENDER_STAR,1)
                 .setBottom(Ingredient.of(Tags.Items.ENDER_PEARLS))
                 .setTop(Ingredient.of(AEItems.SINGULARITY))
                 .setMode(InscriberProcessType.PRESS)
-                .save(output,SoulItems.ENDER_STAR.id());
+                .save(consumer,SoulItems.ENDER_STAR.id());
 
         TitaniumShapedRecipeBuilder.shapedRecipe(SoulBlocks.SOUL_COLLECTOR)
                 .pattern("ABA")
@@ -98,6 +87,6 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
                 .define('A', SoulItems.ENDER_STAR)
                 .define('B', Items.ECHO_SHARD)
                 .define('C', AEBlocks.INTERFACE)
-                .save(output);
+                .save(consumer);
     }
 }

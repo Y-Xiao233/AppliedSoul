@@ -1,58 +1,107 @@
 package net.yxiao233.appliedsoul.common.registry;
 
-import appeng.api.ids.AEBlockIds;
-import appeng.block.AEBaseBlock;
-import appeng.block.AEBaseBlockItem;
-import appeng.block.misc.InterfaceBlock;
-import appeng.core.MainCreativeTab;
-import appeng.core.definitions.AEItems;
+import appeng.block.AEBaseEntityBlock;
+import appeng.blockentity.AEBaseBlockEntity;
+import appeng.blockentity.ClientTickingBlockEntity;
+import appeng.blockentity.ServerTickingBlockEntity;
+import appeng.core.AppEng;
 import appeng.core.definitions.BlockDefinition;
-import appeng.core.definitions.ItemDefinition;
 import com.google.common.base.Preconditions;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.yxiao233.appliedsoul.AppliedSoul;
 import net.yxiao233.appliedsoul.common.block.SoulCollectorBlock;
-import org.jetbrains.annotations.Nullable;
+import net.yxiao233.appliedsoul.common.block.entity.SoulCollectorBlockEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiFunction;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public class SoulBlocks {
-    public static final DeferredRegister.Blocks DR = DeferredRegister.createBlocks(AppliedSoul.MODID);
     private static final List<BlockDefinition<?>> BLOCKS = new ArrayList<>();
-    public static final BlockDefinition<SoulCollectorBlock> SOUL_COLLECTOR = block("Soul Collector", AppliedSoul.makeId("soul_collector"), SoulCollectorBlock::new);
-    private static <T extends Block> BlockDefinition<T> block(String englishName, ResourceLocation id, Supplier<T> blockSupplier) {
-        return block(englishName, id, blockSupplier, null);
+    private static final Map<ResourceLocation, BlockEntityType<?>> BLOCK_ENTITIES = new HashMap<>();
+    public static List<BlockDefinition<?>> getBlocks() {
+        return Collections.unmodifiableList(BLOCKS);
     }
 
-    private static <T extends Block> BlockDefinition<T> block(String englishName, ResourceLocation id, Supplier<T> blockSupplier, @Nullable BiFunction<Block, Item.Properties, BlockItem> itemFactory) {
-        Preconditions.checkArgument(id.getNamespace().equals(AppliedSoul.MODID));
-        DeferredBlock<T> deferredBlock = DR.register(id.getPath(), blockSupplier);
-        DeferredItem<BlockItem> deferredItem = SoulItems.ITEMS.register(id.getPath(), () -> {
-            T block = deferredBlock.get();
-            Item.Properties itemProperties = new Item.Properties();
-            if (itemFactory != null) {
-                BlockItem item = (BlockItem)itemFactory.apply(block, itemProperties);
-                if (item == null) {
-                    throw new IllegalArgumentException("BlockItem factory for " + String.valueOf(id) + " returned null");
-                } else {
-                    return item;
-                }
-            } else {
-                return (BlockItem)(block instanceof AEBaseBlock ? new AEBaseBlockItem(block, itemProperties) : new BlockItem(block, itemProperties));
-            }
-        });
-        ItemDefinition<BlockItem> itemDef = new ItemDefinition<>(englishName, deferredItem);
-        BlockDefinition<T> definition = new BlockDefinition<>(englishName, deferredBlock, itemDef);
+    public static final BlockDefinition<SoulCollectorBlock> SOUL_COLLECTOR = block("Soul Collector","soul_collector", SoulCollectorBlock::new);
+    public static final BlockEntityType<SoulCollectorBlockEntity> SOUL_COLLECTOR_ENTITY = create("soul_collector",SoulCollectorBlockEntity.class,SoulCollectorBlockEntity::new,SOUL_COLLECTOR);
+
+
+    public static void register(RegisterEvent event) {
+        if (event.getRegistryKey().equals(Registries.BLOCK)) {
+            BLOCKS.forEach(b -> ForgeRegistries.BLOCKS.register(b.id(), b.block()));
+        }
+
+        if (event.getRegistryKey().equals(Registries.ITEM)) {
+            BLOCKS.forEach(b -> ForgeRegistries.ITEMS.register(b.id(), b.asItem()));
+        }
+
+        if (event.getRegistryKey().equals(Registries.BLOCK_ENTITY_TYPE)) {
+            BLOCK_ENTITIES.forEach(ForgeRegistries.BLOCK_ENTITY_TYPES::register);
+        }
+    }
+    private static <T extends Block> BlockDefinition<T> block(String englishName, String id, Supplier<T> blockSupplier) {
+        var block = blockSupplier.get();
+        var item = new BlockItem(block, new Item.Properties());
+        var definition = new BlockDefinition<>(englishName, AppliedSoul.makeId(id), block, item);
         BLOCKS.add(definition);
         return definition;
+    }
+
+    @SuppressWarnings("all")
+    @SafeVarargs
+    private static <T extends AEBaseBlockEntity> BlockEntityType<T> create(String shortId, Class<T> entityClass, BlockEntityFactory<T> factory, BlockDefinition<? extends AEBaseEntityBlock<?>>... blockDefinitions) {
+        Preconditions.checkArgument(blockDefinitions.length > 0);
+        ResourceLocation id = AppEng.makeId(shortId);
+        AEBaseEntityBlock[] blocks = Arrays.stream(blockDefinitions).map(BlockDefinition::block).toArray((l) -> {
+            return new AEBaseEntityBlock[l];
+        });
+        AtomicReference<BlockEntityType<T>> typeHolder = new AtomicReference();
+        BlockEntityType.BlockEntitySupplier<T> supplier = (blockPos, blockState) -> {
+            return (T) factory.create(typeHolder.get(), blockPos, blockState);
+        };
+        BlockEntityType<T> type = BlockEntityType.Builder.of(supplier, blocks).build(null);
+        typeHolder.set(type);
+        BLOCK_ENTITIES.put(id, type);
+        AEBaseBlockEntity.registerBlockEntityItem(type, blockDefinitions[0].asItem());
+        BlockEntityTicker<T> serverTicker = null;
+        if (ServerTickingBlockEntity.class.isAssignableFrom(entityClass)) {
+            serverTicker = (level, pos, state, entity) -> {
+                ((ServerTickingBlockEntity)entity).serverTick();
+            };
+        }
+
+        BlockEntityTicker<T> clientTicker = null;
+        if (ClientTickingBlockEntity.class.isAssignableFrom(entityClass)) {
+            clientTicker = (level, pos, state, entity) -> {
+                ((ClientTickingBlockEntity)entity).clientTick();
+            };
+        }
+
+        AEBaseEntityBlock[] var11 = blocks;
+        int var12 = blocks.length;
+
+        for(int var13 = 0; var13 < var12; ++var13) {
+            AEBaseEntityBlock block = var11[var13];
+            block.setBlockEntity(entityClass, type, clientTicker, serverTicker);
+        }
+
+        return type;
+    }
+
+    @FunctionalInterface
+    interface BlockEntityFactory<T extends AEBaseBlockEntity> {
+        T create(BlockEntityType<T> var1, BlockPos var2, BlockState var3);
     }
 }

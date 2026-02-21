@@ -9,12 +9,12 @@ import appeng.api.storage.cells.ISaveProvider;
 import appeng.api.storage.cells.StorageCell;
 import appeng.api.upgrades.IUpgradeInventory;
 import appeng.core.definitions.AEItems;
-import com.buuz135.soulplied_energistics.applied.SoulAEKeyType;
-import com.buuz135.soulplied_energistics.applied.SoulKey;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.yxiao233.appliedsoul.common.item.SoulCellItem;
-import net.yxiao233.appliedsoul.common.registry.SoulComponents;
+import net.yxiao233.appliedsoul.common.key.SoulAEKeyType;
+import net.yxiao233.appliedsoul.common.key.SoulKey;
 
 import java.util.Objects;
 
@@ -29,8 +29,8 @@ public class SoulCellInventory implements StorageCell {
         this.cell = cell;
         this.stack = stack;
         this.container = container;
-
-        soulAmount = stack.getOrDefault(SoulComponents.SOUL_CELL_AMOUNT, 0L);
+        CompoundTag tag = stack.getTag();
+        soulAmount = stack.hasTag() ? (tag.contains("soul") ? tag.getLong("soul") : 0L) : 0L;
     }
     public long getTotalBytes() {
         return cell.getTotalBytes();
@@ -122,9 +122,17 @@ public class SoulCellInventory implements StorageCell {
         }
 
         if (soulAmount < 0) {
-            stack.remove(SoulComponents.SOUL_CELL_AMOUNT);
+            if (stack.hasTag()) {
+                stack.getTag().remove("soul");
+            }
         } else {
-            stack.set(SoulComponents.SOUL_CELL_AMOUNT, soulAmount);
+            if(stack.hasTag()){
+                stack.getTag().putLong("soul",soulAmount);
+            }else{
+                CompoundTag tag = new CompoundTag();
+                tag.putLong("soul",soulAmount);
+                stack.setTag(tag);
+            }
         }
 
         isPersisted = true;

@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.yxiao233.appliedsoul.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "appliedsoul.refmap.json",
+  "mixins": [
+    "MixinInterfaceBlock",
+    "MixinInterfaceBlockEntity",
+    "MixinSoulLaserBaseBlockEntity",
+    "MixinSoulNetwork",
+    "MixinSoulSurgeBlockEntity"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

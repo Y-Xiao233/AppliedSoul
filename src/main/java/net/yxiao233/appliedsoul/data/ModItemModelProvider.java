@@ -2,14 +2,15 @@ package net.yxiao233.appliedsoul.data;
 
 import appeng.core.definitions.ItemDefinition;
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
+import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
 import net.yxiao233.appliedsoul.AppliedSoul;
 import net.yxiao233.appliedsoul.common.registry.SoulItems;
 import org.jetbrains.annotations.NotNull;
 
-public class ModItemModelProvider extends ItemModelProvider{
+public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, AppliedSoul.MODID, existingFileHelper);
     }

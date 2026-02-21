@@ -1,8 +1,5 @@
 package net.yxiao233.appliedsoul.common.compact.jei;
 
-import com.buuz135.soulplied_energistics.applied.SoulAEKeyType;
-import com.buuz135.soulplied_energistics.applied.SoulKey;
-import com.buuz135.soulplied_energistics.client.SoulKeyRenderHandler;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.ingredients.IIngredientType;
@@ -12,6 +9,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import net.yxiao233.appliedsoul.client.SoulKeyRenderHandler;
+import net.yxiao233.appliedsoul.common.key.SoulAEKeyType;
+import net.yxiao233.appliedsoul.common.key.SoulKey;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -40,7 +40,7 @@ public class AppSoulTypes {
 
         @Override
         public @NotNull ResourceLocation getResourceLocation(@NotNull SoulAEKeyType soulAEKeyType) {
-            return ResourceLocation.fromNamespaceAndPath(soulAEKeyType.getId().getNamespace(),"soul");
+            return new ResourceLocation(soulAEKeyType.getId().getNamespace(),"soul");
         }
 
         @Override
@@ -61,6 +61,7 @@ public class AppSoulTypes {
             handler.drawInGui(Minecraft.getInstance(),guiGraphics,0,0, SoulKey.INSTANCE);
         }
 
+        @SuppressWarnings("removal")
         @Override
         public @NotNull List<Component> getTooltip(@NotNull SoulAEKeyType soulAEKeyType, @NotNull TooltipFlag tooltipFlag) {
             List<Component> tips = new ArrayList<>();
