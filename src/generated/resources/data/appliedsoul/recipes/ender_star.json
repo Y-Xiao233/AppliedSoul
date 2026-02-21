@@ -1,0 +1,18 @@
+{
+  "type": "ae2:inscriber",
+  "ingredients": {
+    "bottom": {
+      "tag": "forge:ender_pearls"
+    },
+    "middle": {
+      "item": "minecraft:nether_star"
+    },
+    "top": {
+      "item": "ae2:singularity"
+    }
+  },
+  "mode": "press",
+  "result": {
+    "item": "appliedsoul:ender_star"
+  }
+}
