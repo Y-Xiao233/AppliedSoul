@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "ae2:quartz_glass"
+    },
+    "B": {
+      "item": "minecraft:echo_shard"
+    },
+    "C": {
+      "tag": "forge:plastic"
+    },
+    "D": {
+      "item": "industrialforegoing:pink_slime_ingot"
+    },
+    "E": {
+      "item": "ae2:cell_component_4k"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BEB",
+    "CDC"
+  ],
+  "result": {
+    "item": "appliedsoul:soul_storage_cell_4k"
+  },
+  "show_notification": true
+}

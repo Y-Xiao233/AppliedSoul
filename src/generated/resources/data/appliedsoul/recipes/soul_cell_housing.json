@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "ae2:quartz_glass"
+    },
+    "B": {
+      "item": "minecraft:echo_shard"
+    },
+    "C": {
+      "tag": "forge:plastic"
+    },
+    "D": {
+      "item": "industrialforegoing:pink_slime_ingot"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "B B",
+    "CDC"
+  ],
+  "result": {
+    "item": "appliedsoul:soul_cell_housing"
+  },
+  "show_notification": true
+}

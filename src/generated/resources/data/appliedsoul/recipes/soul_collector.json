@@ -1,0 +1,42 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:item_exists",
+              "item": "appliedsoul:soul_collector"
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "A": {
+            "item": "appliedsoul:ender_star"
+          },
+          "B": {
+            "item": "minecraft:echo_shard"
+          },
+          "C": {
+            "item": "ae2:interface"
+          }
+        },
+        "pattern": [
+          "ABA",
+          "BCB",
+          "ABA"
+        ],
+        "result": {
+          "item": "appliedsoul:soul_collector"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}
