@@ -20,9 +20,8 @@ public class AppliedSoulJeiPlugin implements IModPlugin {
     }
 
     @Override
-    @SuppressWarnings("removal")
     public void registerIngredients(@NotNull IModIngredientRegistration registration) {
-        registration.register( AppSoulTypes.SOUL_TYPE, List.of(SoulAEKeyType.TYPE),new AppSoulTypes.SoulStackHelper(),new AppSoulTypes.SoulStackRenderer());
+        registration.register(AppSoulTypes.SOUL_TYPE, List.of(SoulAEKeyType.TYPE),new AppSoulTypes.SoulStackHelper(),new AppSoulTypes.SoulStackRenderer());
     }
 
     @Override

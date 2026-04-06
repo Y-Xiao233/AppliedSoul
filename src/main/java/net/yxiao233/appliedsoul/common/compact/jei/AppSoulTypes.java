@@ -33,7 +33,6 @@ public class AppSoulTypes {
         }
 
         @Override
-        @SuppressWarnings("removal")
         public @NotNull String getUniqueId(@NotNull SoulAEKeyType soulAEKeyType, @NotNull UidContext uidContext) {
             return soulAEKeyType.getId().getNamespace() + ":" + "soul";
         }
