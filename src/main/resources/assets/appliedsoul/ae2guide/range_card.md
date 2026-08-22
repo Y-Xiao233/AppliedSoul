@@ -16,12 +16,5 @@ item_ids:
 
 **Range Card** can provider additional work range for **<ItemLink id ="appliedsoul:soul_collector" />**.Each upgrade can provider an additional working **radius of 1 chunk**
 
+**Range Card** can provider additional work range for **<ItemLink id ="appliedsoul:soul_broadcast" />**.Each upgrade can provider an additional working **radius of 16 blocks**
 ---
-
-## 使用方式
-
-**Range Card** can only put in **Soul Collector**
-
-<Row gap="16">
-    <BlockImage id="appliedsoul:soul_collector" scale="2" />
-</Row>

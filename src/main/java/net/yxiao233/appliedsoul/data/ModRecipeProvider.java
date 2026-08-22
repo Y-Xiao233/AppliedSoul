@@ -15,7 +15,6 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.Tags;
@@ -98,6 +97,24 @@ public class ModRecipeProvider extends VanillaRecipeProvider {
                 .define('A', SoulItems.ENDER_STAR)
                 .define('B', Items.ECHO_SHARD)
                 .define('C', AEBlocks.INTERFACE)
+                .save(output);
+
+        TitaniumShapedRecipeBuilder.shapedRecipe(SoulBlocks.SOUL_BROADCAST)
+                .pattern("ABA")
+                .pattern("BCB")
+                .pattern("ABA")
+                .define('A', Items.ECHO_SHARD)
+                .define('B', SoulItems.ENDER_STAR)
+                .define('C', AEBlocks.INTERFACE)
+                .save(output);
+
+        TitaniumShapedRecipeBuilder.shapedRecipe(SoulItems.BROADCAST_CONNECT_TOOL)
+                .pattern(" A ")
+                .pattern(" B ")
+                .pattern(" C ")
+                .define('A', AEItems.WIRELESS_RECEIVER)
+                .define('B', SoulItems.ENDER_STAR)
+                .define('C', Items.ECHO_SHARD)
                 .save(output);
     }
 }

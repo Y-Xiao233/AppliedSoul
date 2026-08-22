@@ -38,8 +38,10 @@ license = "${mod_license}"
     side = "BOTH"
 
 [[dependencies."${mod_id}"]]
-modId = "industrialforegoingsouls"
-type = "required"
-versionRange = "[1.10.4,)"
-ordering = "NONE"
-side = "BOTH"
+    modId = "industrialforegoingsouls"
+    type = "required"
+    versionRange = "[1.10.4,)"
+    ordering = "NONE"
+    side = "BOTH"
+[[mixins]]
+    config = "${mod_id}.mixins.json"

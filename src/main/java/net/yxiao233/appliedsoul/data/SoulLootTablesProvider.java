@@ -29,6 +29,7 @@ public class SoulLootTablesProvider {
         @Override
         protected void generate() {
             dropSelf(SoulBlocks.SOUL_COLLECTOR.block());
+            dropSelf(SoulBlocks.SOUL_BROADCAST.block());
         }
 
         @Override

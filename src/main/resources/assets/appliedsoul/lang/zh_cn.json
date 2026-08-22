@@ -8,7 +8,20 @@
   "item.appliedsoul.soul_storage_cell_256k": "256k ME灵魂存储元件",
   "item.appliedsoul.range_card": "范围卡",
   "item.appliedsoul.ender_star": "末影之星",
+  "item.appliedsoul.broadcast_connect_tool": "灵魂广播器连接工具",
   "block.appliedsoul.soul_collector": "灵魂收集器",
+  "block.appliedsoul.soul_broadcast": "灵魂广播器",
   "aekey.soulkey.description": "灵魂",
-  "gui.appliedsoul.soul_collector": "灵魂收集器"
+  "gui.appliedsoul.soul_collector": "灵魂收集器",
+  "gui.appliedsoul.soul_broadcast": "灵魂广播器",
+  "tooltip.appliedsoul.connection_pos": "已经连接到: X: %s Y: %s Z: %s",
+  "tooltip.appliedsoul.connection_dimension": "目标维度: %s",
+  "tip.appliedsoul.broadcast_connect_tool.selected": "成功连接至: X: %s Y: %s Z: %s",
+  "tip.appliedsoul.broadcast_connect_tool.clear_selected": "成功清除了现有的连接",
+  "tip.appliedsoul.broadcast_connect_tool.need_broadcast": "需要先连接至灵魂广播器",
+  "tip.appliedsoul.broadcast_connect_tool.connected": "成功连接",
+  "tip.appliedsoul.broadcast_connect_tool.removed": "成功移除",
+  "tip.appliedsoul.broadcast_connect_tool.different_dimension": "维度不匹配",
+  "tip.appliedsoul.broadcast_connect_tool.has_connected": "已被其他灵魂广播器连接",
+  "tip.appliedsoul.broadcast_connect_tool.out_of_range": "超出距离限制(最大可连接距离: %s)"
 }

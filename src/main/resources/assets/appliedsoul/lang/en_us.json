@@ -8,7 +8,20 @@
   "item.appliedsoul.soul_storage_cell_256k": "256k ME Soul Storage Cell",
   "item.appliedsoul.range_card": "Range Card",
   "item.appliedsoul.ender_star": "Ender Star",
+  "item.appliedsoul.broadcast_connect_tool": "Broadcast Connect Tool",
   "block.appliedsoul.soul_collector": "Soul Collector",
+  "block.appliedsoul.soul_broadcast": "Soul Broadcast",
   "aekey.soulkey.description": "Souls",
-  "gui.appliedsoul.soul_collector": "Soul Collector"
+  "gui.appliedsoul.soul_collector": "Soul Collector",
+  "gui.appliedsoul.soul_broadcast": "Soul Broadcast",
+  "tooltip.appliedsoul.connection_pos": "Connected to: X: %s Y: %s Z: %s",
+  "tooltip.appliedsoul.connection_dimension": "Target dimension: %s",
+  "tip.appliedsoul.broadcast_connect_tool.selected": "Success connected to: X: %s Y: %s Z: %s",
+  "tip.appliedsoul.broadcast_connect_tool.clear_selected": "Success cleared",
+  "tip.appliedsoul.broadcast_connect_tool.need_broadcast": "Need to connect to the Soul Broadcaster",
+  "tip.appliedsoul.broadcast_connect_tool.connected": "Connected",
+  "tip.appliedsoul.broadcast_connect_tool.removed": "Removed",
+  "tip.appliedsoul.broadcast_connect_tool.different_dimension": "Dimension mismatch",
+  "tip.appliedsoul.broadcast_connect_tool.has_connected": "Connected by other Soul Broadcasters",
+  "tip.appliedsoul.broadcast_connect_tool.out_of_range": "Out of Range(Max Range: %s)"
 }

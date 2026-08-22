@@ -19,6 +19,7 @@ public class SoulBlockTagProvider extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .add(SoulBlocks.SOUL_COLLECTOR.block());
+                .add(SoulBlocks.SOUL_COLLECTOR.block())
+                .add(SoulBlocks.SOUL_BROADCAST.block());
     }
 }

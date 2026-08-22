@@ -10,12 +10,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.yxiao233.appliedsoul.common.block.entity.SoulCollectorBlockEntity;
+import org.jetbrains.annotations.NotNull;
 
 public class SoulCollectorBlock extends AEBaseEntityBlock<SoulCollectorBlockEntity> {
     public SoulCollectorBlock() {
         super(metalProps());
     }
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof SoulCollectorBlockEntity be) {
             if (!level.isClientSide()) {

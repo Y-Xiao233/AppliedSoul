@@ -1,4 +1,4 @@
-package net.yxiao233.appliedsoul.client;
+package net.yxiao233.appliedsoul.client.screen;
 
 import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.implementations.UpgradeableMenu;

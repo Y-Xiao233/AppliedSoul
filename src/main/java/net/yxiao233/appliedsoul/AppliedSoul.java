@@ -4,11 +4,14 @@ import appeng.api.AECapabilities;
 import appeng.api.storage.StorageCells;
 import appeng.api.upgrades.Upgrades;
 import appeng.blockentity.AEBaseBlockEntity;
+import appeng.client.gui.AEBaseScreen;
 import appeng.init.client.InitScreens;
+import appeng.menu.AEBaseMenu;
 import appeng.parts.automation.StackWorldBehaviors;
 import com.buuz135.soulplied_energistics.applied.SoulAEKeyType;
 import com.hrznstudio.titanium.module.ModuleController;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.MenuType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -19,7 +22,8 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import net.yxiao233.appliedsoul.client.SoulCollectorScreen;
+import net.yxiao233.appliedsoul.client.screen.SoulBroadcastScreen;
+import net.yxiao233.appliedsoul.client.screen.SoulCollectorScreen;
 import net.yxiao233.appliedsoul.common.me.cell.SoulCellHandler;
 import net.yxiao233.appliedsoul.common.me.strategy.SoulStorageExportStrategy;
 import net.yxiao233.appliedsoul.common.me.strategy.SoulStorageImportStrategy;
@@ -50,7 +54,9 @@ public class AppliedSoul extends ModuleController {
 
     public void commonSetup(FMLCommonSetupEvent event) {
         Upgrades.add(SoulItems.RANGE_CARD, SoulBlocks.SOUL_COLLECTOR, 2);
+        Upgrades.add(SoulItems.RANGE_CARD, SoulBlocks.SOUL_BROADCAST, 2);
         AEBaseBlockEntity.registerBlockEntityItem(SoulBlocks.SOUL_COLLECTOR.block().getBlockEntityType(), SoulBlocks.SOUL_COLLECTOR.asItem());
+        AEBaseBlockEntity.registerBlockEntityItem(SoulBlocks.SOUL_BROADCAST.block().getBlockEntityType(), SoulBlocks.SOUL_BROADCAST.asItem());
     }
 
     public static ResourceLocation makeId(String id){
@@ -76,7 +82,12 @@ public class AppliedSoul extends ModuleController {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
-            InitScreens.register(event,SoulMenus.SOUL_COLLECTOR.get(),SoulCollectorScreen::new,"/screens/soul_collector.json");
+            registerMenu(event,SoulIds.SOUL_COLLECTOR,SoulMenus.SOUL_COLLECTOR.get(),SoulCollectorScreen::new);
+            registerMenu(event,SoulIds.SOUL_BROADCAST,SoulMenus.SOUL_BROADCAST.get(), SoulBroadcastScreen::new);
+        }
+
+        private static <M extends AEBaseMenu, U extends AEBaseScreen<M>> void registerMenu(RegisterMenuScreensEvent event, EntryIds entry, MenuType<M> type, InitScreens.StyledScreenFactory<M, U> factory){
+            InitScreens.register(event,type,factory,"/screens/" + entry.getShortId() + ".json");
         }
     }
 
@@ -84,6 +95,11 @@ public class AppliedSoul extends ModuleController {
         event.registerBlockEntity(
                 AECapabilities.IN_WORLD_GRID_NODE_HOST,
                 SoulBlockEntities.SOUL_COLLECTOR.get(),
+                (be, ctx) -> be
+        );
+        event.registerBlockEntity(
+                AECapabilities.IN_WORLD_GRID_NODE_HOST,
+                SoulBlockEntities.SOUL_BROADCAST.get(),
                 (be, ctx) -> be
         );
     }

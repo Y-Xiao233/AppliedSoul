@@ -14,6 +14,7 @@ public class SoulBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         cubeAll(SoulBlocks.SOUL_COLLECTOR);
+        cubeAll(SoulBlocks.SOUL_BROADCAST);
     }
 
     private void cubeAll(BlockDefinition<?> blockDefinition){

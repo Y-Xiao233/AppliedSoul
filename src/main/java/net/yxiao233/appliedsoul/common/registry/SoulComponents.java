@@ -1,11 +1,14 @@
 package net.yxiao233.appliedsoul.common.registry;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.yxiao233.appliedsoul.AppliedSoul;
+import net.yxiao233.appliedsoul.util.CodecHelper;
 
 import java.util.function.Consumer;
 
@@ -16,6 +19,8 @@ public class SoulComponents {
     public static final DataComponentType<Long> SOUL_CELL_AMOUNT = register(
             "soul_amount", builder -> builder.persistent(Codec.LONG).networkSynchronized(ByteBufCodecs.VAR_LONG));
 
+    public static final DataComponentType<BlockPos> BLOCK_POS = register(
+            "block_pos",builder -> builder.persistent(BlockPos.CODEC).networkSynchronized(BlockPos.STREAM_CODEC));
     private static <T> DataComponentType<T> register(String name, Consumer<DataComponentType.Builder<T>> customizer) {
         var builder = DataComponentType.<T>builder();
         customizer.accept(builder);

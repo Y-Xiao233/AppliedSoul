@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.yxiao233.appliedsoul.AppliedSoul;
+import net.yxiao233.appliedsoul.common.block.entity.SoulBroadcastBlockEntity;
 import net.yxiao233.appliedsoul.common.block.entity.SoulCollectorBlockEntity;
 
 import java.util.ArrayList;
@@ -26,12 +27,14 @@ import java.util.concurrent.atomic.AtomicReference;
 public class SoulBlockEntities {
     private static final List<DeferredBlockEntityType<?>> BLOCK_ENTITY_TYPES = new ArrayList<>();
     public static final DeferredRegister<BlockEntityType<?>> DR = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, AppliedSoul.MODID);
-    public static final DeferredBlockEntityType<SoulCollectorBlockEntity> SOUL_COLLECTOR = create("soul_collector", SoulCollectorBlockEntity.class, SoulCollectorBlockEntity::new, SoulBlocks.SOUL_COLLECTOR);
+    public static final DeferredBlockEntityType<SoulCollectorBlockEntity> SOUL_COLLECTOR = create(SoulIds.SOUL_COLLECTOR, SoulCollectorBlockEntity.class, SoulCollectorBlockEntity::new, SoulBlocks.SOUL_COLLECTOR);
+    public static final DeferredBlockEntityType<SoulBroadcastBlockEntity> SOUL_BROADCAST = create(SoulIds.SOUL_BROADCAST, SoulBroadcastBlockEntity.class, SoulBroadcastBlockEntity::new, SoulBlocks.SOUL_BROADCAST);
 
     @SafeVarargs
     @SuppressWarnings("all")
-    private static <T extends AEBaseBlockEntity> DeferredBlockEntityType<T> create(String shortId, Class<T> entityClass, BlockEntityFactory<T> factory, BlockDefinition<? extends AEBaseEntityBlock<?>>... blockDefinitions) {
+    private static <T extends AEBaseBlockEntity> DeferredBlockEntityType<T> create(EntryIds entry, Class<T> entityClass, BlockEntityFactory<T> factory, BlockDefinition<? extends AEBaseEntityBlock<?>>... blockDefinitions) {
         Preconditions.checkArgument(blockDefinitions.length > 0);
+        String shortId = entry.getShortId();
         DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> deferred = DR.register(shortId, () -> {
             AtomicReference<BlockEntityType<T>> typeHolder = new AtomicReference<>();
             BlockEntityType.BlockEntitySupplier<T> supplier = (blockPos, blockState) -> {
@@ -67,6 +70,10 @@ public class SoulBlockEntities {
         DeferredBlockEntityType<T> result = new DeferredBlockEntityType<>(entityClass, deferred);
         BLOCK_ENTITY_TYPES.add(result);
         return result;
+    }
+
+    public static List<DeferredBlockEntityType<?>> getBlockEntityTypes(){
+        return BLOCK_ENTITY_TYPES;
     }
 
     @FunctionalInterface

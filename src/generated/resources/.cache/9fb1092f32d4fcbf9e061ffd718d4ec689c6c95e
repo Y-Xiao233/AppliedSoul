@@ -1,5 +1,7 @@
-// 1.21.1	2026-02-12T15:24:37.3667176	Recipes
+// 1.21.1	2026-08-22T17:55:13.379851	Recipes
+8280198b383108ab55ab06b117e6bb313ff2a455 data/appliedsoul/advancement/recipes/misc/broadcast_connect_tool.json
 09bea6c627ce034eff836f33a7286e95976ce3dc data/appliedsoul/advancement/recipes/misc/range_card.json
+31162bff0a234d3712bdf0863ec1c4b430285b8b data/appliedsoul/advancement/recipes/misc/soul_broadcast.json
 aeaca8bf263527931bce83883e7896e1267e05a0 data/appliedsoul/advancement/recipes/misc/soul_cell_housing.json
 afbbe4a14bfde9083b7b7f913ea3a3720436b45d data/appliedsoul/advancement/recipes/misc/soul_collector.json
 c6ca62743a267441f5b942674a49010b522e9e3b data/appliedsoul/advancement/recipes/misc/soul_storage_cell_16k.json
@@ -12,8 +14,10 @@ c6ca62743a267441f5b942674a49010b522e9e3b data/appliedsoul/advancement/recipes/mi
 bde96051703000b84eca57ef91d4f8346c45853b data/appliedsoul/advancement/recipes/misc/soul_storage_cell_4k_storage.json
 e289d968d6edff89d554bf897e8e43997ed4a54a data/appliedsoul/advancement/recipes/misc/soul_storage_cell_64k.json
 fa6e66a6738d2a2691faa2a15670fb8241d41024 data/appliedsoul/advancement/recipes/misc/soul_storage_cell_64k_storage.json
+5a021f4f26f26eec07bca244352daed22f789c84 data/appliedsoul/recipe/broadcast_connect_tool.json
 3443b85aca540d6bd1b318f6dc5048c963089034 data/appliedsoul/recipe/ender_star.json
 0b0227b7571a78318272d2c26444332f19855ab5 data/appliedsoul/recipe/range_card.json
+996591a06c231926ddb3fa4a81e0a6aaca7bf206 data/appliedsoul/recipe/soul_broadcast.json
 622e4a44b5497ad2ca1d0f158ebb79a53f44c5be data/appliedsoul/recipe/soul_cell_housing.json
 b8f8236d2509fccce4a0d7cba644374462b263c7 data/appliedsoul/recipe/soul_collector.json
 25e974427970561e64644bccdcda9975a1bd294d data/appliedsoul/recipe/soul_storage_cell_16k.json

@@ -1,0 +1,19 @@
+{
+  "$schema": "schema.json",
+  "includes": ["common/common.json", "common/player_inventory.json", "common/toolbox.json"],
+  "background": {
+    "texture": "guis/soul_broadcast.png",
+    "srcRect": [0, 0, 176, 141]
+  },
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gui.appliedsoul.soul_broadcast"
+      },
+      "position": {
+        "left": 8,
+        "top": 6
+      }
+    }
+  }
+}
