@@ -160,7 +160,7 @@ public class SoulBroadcastLogic {
                 if(blockEntity != null){
                     BlockEntityTicker<BlockEntity> ticker = blockState.getTicker(level,(BlockEntityType<BlockEntity>) blockEntity.getType());
                     if (ticker != null) {
-                        for(int i = 0; i < ConfigSoulSurge.ACCELERATION_TICK * 8; ++i) {
+                        for(int i = 0; i < ConfigSoulSurge.ACCELERATION_TICK * 6; ++i) {
                             ticker.tick(level, pos , blockState, blockEntity);
                         }
 

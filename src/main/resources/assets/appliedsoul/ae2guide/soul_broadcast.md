@@ -22,7 +22,7 @@ item_ids:
 
 * 1.You first need to use **<ItemLink id ="appliedsoul:broadcast_connect_tool" />** **SHIFT+RIGHT CLICK** select the **Soul Broadcast**
 * 2.Then press **SHIFT+RIGHT CLICK** on any machine that can be accelerated.Than this machine can be accelerated normally
-* ps1.Default is **4(Industrial Foregoing: Souls' configuration)** * **8(All faces take effect by default)** speed
+* ps1.Default is **4(Industrial Foregoing: Souls' configuration)** * **6(All faces take effect by default)** speed
 * ps2.This machine **cannot** cross dimension to accelerate machine
 * ps3.Machines selected by other **Soul Broadcasters** cannot be selected again
 * ps4.The selected machine is also **cannot** accelerate through **Soul Surge**
